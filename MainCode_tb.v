@@ -1,4 +1,4 @@
-`timescale 1ns/1ps
+`timescale 1ns/1ns
 
 module MainCode_tb;
 
@@ -9,6 +9,7 @@ module MainCode_tb;
 	wire Green;
 	wire Red;
 	wire Amber;
+	integer StepCount;
 
 	MainCode DUT (
 		.CLK_50MHz(CLK_50MHz),
@@ -28,41 +29,29 @@ module MainCode_tb;
 
 	initial begin
 		rst_n = 1'b0;
+		StepCount = 0;
 
 		#100;
 		rst_n = 1'b1;
 
-		// Push the divider close to rollover so the 1 Hz domain can be observed in simulation
-		DUT.MainClockDivider.CountReg = 26'd24_999_997;
-		DUT.MainClockDivider.Clk1HzReg = 1'b0;
-
-		#200;
-
-		DUT.MainClockDivider.CountReg = 26'd24_999_997;
-
-		#200;
-
-		DUT.MainClockDivider.CountReg = 26'd24_999_997;
-
-		#200;
-
-		DUT.MainClockDivider.CountReg = 26'd24_999_997;
-
-		#200;
-
-		DUT.MainClockDivider.CountReg = 26'd24_999_997;
-
-		#200;
-
-		DUT.MainClockDivider.CountReg = 26'd24_999_997;
-
-		#200;
-
-		DUT.MainClockDivider.CountReg = 26'd24_999_997;
-
-		#200;
+		repeat (30) begin
+			DUT.MainClockDivider.CountReg = 26'd24_999_997;
+			#60;
+		end
 
 		$stop;
+	end
+
+	always @(posedge DUT.MainClockDivider.Clk1HzReg) begin
+		StepCount = StepCount + 1;
+		$display("Step %0d  State=%b  Count=%0d  Lights R=%b A=%b G=%b",
+			StepCount,
+			DUT.MainCoreLogic.StateReg,
+			DUT.MainCoreLogic.CounterValue,
+			Red,
+			Amber,
+			Green
+		);
 	end
 
 endmodule
