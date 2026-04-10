@@ -47,6 +47,17 @@ set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name BOARD "MAX 10 DE10 - Lite"
 set_global_assignment -name VERILOG_FILE MainCode.v
 set_global_assignment -name VERILOG_FILE ClockDivider.v
+set_global_assignment -name VERILOG_FILE FullAdder.v
+set_global_assignment -name VERILOG_FILE IncrementAdder2.v
+set_global_assignment -name VERILOG_FILE IncrementAdder4.v
+set_global_assignment -name VERILOG_FILE IncrementAdder26.v
+set_global_assignment -name VERILOG_FILE And26.v
+set_global_assignment -name VERILOG_FILE Comparator4.v
+set_global_assignment -name VERILOG_FILE Comparator26.v
+set_global_assignment -name VERILOG_FILE Mux2_1.v
+set_global_assignment -name VERILOG_FILE Mux2_4.v
+set_global_assignment -name VERILOG_FILE Mux2_26.v
+set_global_assignment -name VERILOG_FILE StateCounter2Bit.v
 set_global_assignment -name VERILOG_FILE CoreLogic.v
 set_global_assignment -name VERILOG_FILE CounterUnit.v
 set_global_assignment -name VERILOG_FILE Decoder.v
