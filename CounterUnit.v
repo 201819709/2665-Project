@@ -66,7 +66,7 @@ module CounterUnit (
 
 	always @(posedge CLK or negedge rst_n) begin
 		if (!rst_n) begin
-			CountReg <= ZeroCount;   // On power up set to 0, countLoad now 1
+			CountReg <= 4'b1111;   // On power up set to -1 so the first count becomes 0
 		end
 		else begin
 			CountReg <= CountHoldOrLoad;    // countReg now + 1
