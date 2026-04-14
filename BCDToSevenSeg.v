@@ -34,3 +34,4 @@ module BCDToSevenSeg (
 	assign SevenSeg[6] = (NotA & NotB & NotC) | (NotA & B & C & D);
 
 endmodule
+

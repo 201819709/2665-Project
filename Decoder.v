@@ -11,6 +11,8 @@ module Decoder (
 	wire [3:0] CountUp;
 	wire [3:0] TargetValue;
 	wire [3:0] CountDown;
+	wire CountIsResetValue;
+	wire [3:0] DisplayCount;
 
 	assign CountUp = ControlSignal[3:0];
 
@@ -28,7 +30,22 @@ module Decoder (
 		.Diff(CountDown)
 	);
 
-	assign Count = CountDown;
+	// 1111 only appears during reset, not during normal counting
+	Comparator4 ResetValueComparator (
+		.A(CountUp),
+		.B(4'b1111),
+		.Equal(CountIsResetValue)
+	);
+
+	// While reset value is present, show the phase start number
+	Mux2_4 ResetDisplayMux (
+		.A0(CountDown),
+		.A1(TargetValue),
+		.Sel(CountIsResetValue),
+		.Y(DisplayCount)
+	);
+
+	assign Count = DisplayCount;
 
 	assign Red = ~ControlSignal[5] & ~ControlSignal[4];
 	assign Amber = ControlSignal[4];
