@@ -29,7 +29,7 @@ module BCDToSevenSeg (
 	assign SevenSeg[1] = (NotA & B & NotC & D) | (NotA & B & C & NotD);
 	assign SevenSeg[2] = (NotA & NotB & C & NotD);
 	assign SevenSeg[3] = (NotA & NotB & NotC & D) | (NotA & B & NotC & NotD) | (NotA & B & C & D);
-	assign SevenSeg[4] = (NotA & D) | (NotA & B & NotC);
+	assign SevenSeg[4] = (NotA & D) | (NotA & B & NotC) | (A & NotB & NotC & D);
 	assign SevenSeg[5] = (NotA & NotB & D) | (NotA & NotB & C) | (NotA & C & D);
 	assign SevenSeg[6] = (NotA & NotB & NotC) | (NotA & B & C & D);
 
