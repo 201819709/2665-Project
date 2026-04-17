@@ -3,6 +3,9 @@ module CoreLogic (
 	input CLK,
 	input CLK_sync,	//This is optional, remove if you do not need it.
 	input rst_n,
+	input ForceRed,
+	input ForceAmber,
+	input ForceGreen,
 	output [5:0] ControlSignal  //Do NOT modify this signal!
 
 );
@@ -14,6 +17,10 @@ module CoreLogic (
 	wire [3:0] CounterSetting;
 	wire [3:0] CounterValue;
 	wire PhaseDone;
+	wire [5:0] NormalControlSignal;
+	wire [5:0] GreenOverrideSignal;
+	wire [5:0] AmberOverrideSignal;
+	wire [5:0] RedOverrideSignal;
 
 	IncrementAdder2 StateAdder (
 		.A(StateReg),
@@ -60,7 +67,20 @@ module CoreLogic (
 		end
 	end
 
-	assign ControlSignal[5:4] = StateReg;
-	assign ControlSignal[3:0] = CounterValue;
+	assign NormalControlSignal = {StateReg, CounterValue};
+	assign GreenOverrideSignal = 6'b10_1111;
+	assign AmberOverrideSignal = 6'b01_1111;
+	assign RedOverrideSignal = 6'b00_1111;
+
+	OverrideMux6 ManualOverrideMux (
+		.NormalSignal(NormalControlSignal),
+		.GreenSignal(GreenOverrideSignal),
+		.AmberSignal(AmberOverrideSignal),
+		.RedSignal(RedOverrideSignal),
+		.ForceGreen(ForceGreen),
+		.ForceAmber(ForceAmber),
+		.ForceRed(ForceRed),
+		.Y(ControlSignal)
+	);
 
 endmodule

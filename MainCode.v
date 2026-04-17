@@ -2,6 +2,9 @@ module MainCode (
 
 	input CLK_50MHz,
 	input rst_n,
+	input ForceRed,
+	input ForceAmber,
+	input ForceGreen,
 	output [6:0] HexH,
 	output [6:0] HexL,
 	output Green,
@@ -26,6 +29,9 @@ module MainCode (
 		.CLK(CLK_1Hz),
 		.CLK_sync(CLK_sync),
 		.rst_n(rst_n),
+		.ForceRed(ForceRed),
+		.ForceAmber(ForceAmber),
+		.ForceGreen(ForceGreen),
 		.ControlSignal(ControlSignal)
 	);
 
