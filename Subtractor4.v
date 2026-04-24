@@ -6,6 +6,8 @@ module Subtractor4 (
 
 );
 
+// Use A - B = A + (~B + 1)
+
 	wire [3:0] BInvert;
 	wire [3:0] Carry;
 

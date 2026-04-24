@@ -25,6 +25,17 @@ module BCDToSevenSeg (
 	not NotGateC (NotC, C);
 	not NotGateD (NotD, D);
 
+	// If BCD = 0, output 7'b1000000
+	// else if BCD = 1, output 7'b1111001
+	// else if BCD = 2, output 7'b0100100
+	// else if BCD = 3, output 7'b0110000
+	// else if BCD = 4, output 7'b0011001
+	// else if BCD = 5, output 7'b0010010
+	// else if BCD = 6, output 7'b0000010
+	// else if BCD = 7, output 7'b1111000
+	// else if BCD = 8, output 7'b0000000
+	// else if BCD = 9, output 7'b0010000
+	// else output 7'b1111111
 	assign SevenSeg[0] = (NotA & NotB & NotC & D) | (NotA & B & NotC & NotD);
 	assign SevenSeg[1] = (NotA & B & NotC & D) | (NotA & B & C & NotD);
 	assign SevenSeg[2] = (NotA & NotB & C & NotD);
@@ -34,4 +45,3 @@ module BCDToSevenSeg (
 	assign SevenSeg[6] = (NotA & NotB & NotC) | (NotA & B & C & D);
 
 endmodule
-

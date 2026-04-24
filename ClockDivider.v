@@ -30,7 +30,7 @@ module ClockDivider (
 	wire Clk1HzToggle;
 	wire Clk1HzNext;
 
-	// Six decade stages and two divide-by-5 stages give 25,000,000 input clocks per toggle
+	// Six set to 10 and 2 set to 5 give 25,000,000 input clocks per toggle
 	CounterUnit CounterStage0 (
 		.CLK(CLK_50MHz),
 		.Setting(4'b1010),
