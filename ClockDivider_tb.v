@@ -6,7 +6,6 @@ module ClockDivider_tb;
 	reg rst_n;
 	wire CLK_1Hz;
 	wire CLK_sync;
-	integer StepCount;
 
 	ClockDivider DUT (
 		.CLK_50MHz(CLK_50MHz),
@@ -23,62 +22,31 @@ module ClockDivider_tb;
 
 	initial begin
 		rst_n = 1'b0;
-		StepCount = 0;
 
-		#40;
+		#25;
 		rst_n = 1'b1;
 
-		// Put the cascaded counters near their wrap point so the divider can be observed quickly
-		DUT.CounterStage0.CountReg = 4'b1001;
-		DUT.CounterStage1.CountReg = 4'b1001;
-		DUT.CounterStage2.CountReg = 4'b1001;
-		DUT.CounterStage3.CountReg = 4'b1001;
-		DUT.CounterStage4.CountReg = 4'b1001;
-		DUT.CounterStage5.CountReg = 4'b1001;
-		DUT.CounterStage6.CountReg = 4'b0100;
-		DUT.CounterStage7.CountReg = 4'b0100;
 		DUT.Clk1HzReg = 1'b0;
-
-		#200;
-
-		DUT.CounterStage0.CountReg = 4'b1001;
-		DUT.CounterStage1.CountReg = 4'b1001;
-		DUT.CounterStage2.CountReg = 4'b1001;
-		DUT.CounterStage3.CountReg = 4'b1001;
-		DUT.CounterStage4.CountReg = 4'b1001;
-		DUT.CounterStage5.CountReg = 4'b1001;
-		DUT.CounterStage6.CountReg = 4'b0100;
-		DUT.CounterStage7.CountReg = 4'b0100;
-
-		#200;
-
-		DUT.CounterStage0.CountReg = 4'b1001;
-		DUT.CounterStage1.CountReg = 4'b1001;
-		DUT.CounterStage2.CountReg = 4'b1001;
-		DUT.CounterStage3.CountReg = 4'b1001;
-		DUT.CounterStage4.CountReg = 4'b1001;
-		DUT.CounterStage5.CountReg = 4'b1001;
-		DUT.CounterStage6.CountReg = 4'b0100;
-		DUT.CounterStage7.CountReg = 4'b0100;
-
-		#200;
-
-		DUT.CounterStage0.CountReg = 4'b1001;
-		DUT.CounterStage1.CountReg = 4'b1001;
-		DUT.CounterStage2.CountReg = 4'b1001;
-		DUT.CounterStage3.CountReg = 4'b1001;
-		DUT.CounterStage4.CountReg = 4'b1001;
-		DUT.CounterStage5.CountReg = 4'b1001;
-		DUT.CounterStage6.CountReg = 4'b0100;
-		DUT.CounterStage7.CountReg = 4'b0100;
-
-		#200;
+		run_divider_steps(4);
 		$stop;
 	end
 
-	always @(posedge CLK_1Hz) begin
-		StepCount = StepCount + 1;
-		$display("Step %0d  CLK_1Hz=%b  CLK_sync=%b", StepCount, CLK_1Hz, CLK_sync);
-	end
+	task run_divider_steps;
+		input integer NumberOfSteps;
+		integer StepIndex;
+		begin
+			for (StepIndex = 0; StepIndex < NumberOfSteps; StepIndex = StepIndex + 1) begin
+				DUT.CounterStage0.CountReg = 4'b1001;
+				DUT.CounterStage1.CountReg = 4'b1001;
+				DUT.CounterStage2.CountReg = 4'b1001;
+				DUT.CounterStage3.CountReg = 4'b1001;
+				DUT.CounterStage4.CountReg = 4'b1001;
+				DUT.CounterStage5.CountReg = 4'b1001;
+				DUT.CounterStage6.CountReg = 4'b0100;
+				DUT.CounterStage7.CountReg = 4'b0100;
+				#60;
+			end
+		end
+	endtask
 
 endmodule

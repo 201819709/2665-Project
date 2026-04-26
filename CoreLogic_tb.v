@@ -9,7 +9,6 @@ module CoreLogic_tb;
 	reg ForceAmber;
 	reg ForceGreen;
 	wire [5:0] ControlSignal;
-	integer StepCount;
 
 	CoreLogic DUT (
 		.CLK(CLK),
@@ -33,23 +32,26 @@ module CoreLogic_tb;
 		ForceRed = 1'b0;
 		ForceAmber = 1'b0;
 		ForceGreen = 1'b0;
-		StepCount = 0;
 
-		#40;
+		#25;
 		rst_n = 1'b1;
 
-		#700;
-		$stop;
-	end
+		#240;
+		ForceGreen = 1'b1;
 
-	always @(posedge CLK) begin
-		StepCount = StepCount + 1;
-		$display("Step %0d  State=%b  Count=%b  ControlSignal=%b",
-			StepCount,
-			DUT.StateReg,
-			DUT.CounterValue,
-			ControlSignal
-		);
+		#80;
+		ForceGreen = 1'b0;
+		ForceAmber = 1'b1;
+
+		#80;
+		ForceAmber = 1'b0;
+		ForceRed = 1'b1;
+
+		#80;
+		ForceRed = 1'b0;
+
+		#120;
+		$stop;
 	end
 
 endmodule

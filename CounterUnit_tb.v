@@ -8,7 +8,6 @@ module CounterUnit_tb;
 	reg rst_n;
 	wire [3:0] Count;
 	wire Overflow;
-	integer StepCount;
 
 	CounterUnit DUT (
 		.CLK(CLK),
@@ -26,27 +25,25 @@ module CounterUnit_tb;
 	always #10 CLK = ~CLK;
 
 	initial begin
-		Setting = 4'b1111;
-		Enable = 1'b1;
+		Setting = 4'b0101;
+		Enable = 1'b0;
 		rst_n = 1'b0;
-		StepCount = 0;
 
-		#40;
+		#25;
 		rst_n = 1'b1;
 
-		#400;
-		$stop;
-	end
+		#20;
+		Enable = 1'b1;
 
-	always @(posedge CLK) begin
-		StepCount = StepCount + 1;
-		$display("Step %0d  Enable=%b  Setting=%b  Count=%b  Overflow=%b",
-			StepCount,
-			Enable,
-			Setting,
-			Count,
-			Overflow
-		);
+		#120;
+		Enable = 1'b0;
+
+		#40;
+		Setting = 4'b0011;
+		Enable = 1'b1;
+
+		#100;
+		$stop;
 	end
 
 endmodule

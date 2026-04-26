@@ -41,7 +41,7 @@ module MainCode_tb;
 		#25;
 		rst_n = 1'b1;
 
-		run_divider_steps(30);
+		run_divider_steps(11);
 
 		ForceAmber = 1'b1;
 		run_divider_steps(3);
